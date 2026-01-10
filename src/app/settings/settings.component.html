@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="page-header">
+    <div class="page-title-group">
+      <h1>Settings</h1>
+      <p>Configure your account and application preferences</p>
+    </div>
+  </div>
+
+  <div class="settings-grid">
+    <!-- Account Settings -->
+    <mat-card class="content-card">
+      <div class="card-header">
+        <mat-icon>person</mat-icon>
+        <h3>Account Settings</h3>
+      </div>
+      <div class="card-content">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Profile Visibility</span>
+            <span class="setting-description">Make your profile visible to other researchers</span>
+          </div>
+          <mat-slide-toggle color="primary" [checked]="true"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Two-Factor Authentication</span>
+            <span class="setting-description">Add an extra layer of security to your account</span>
+          </div>
+          <button mat-stroked-button color="primary">Enable</button>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Notification Settings -->
+    <mat-card class="content-card">
+      <div class="card-header">
+        <mat-icon>notifications</mat-icon>
+        <h3>Notifications</h3>
+      </div>
+      <div class="card-content">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Email Notifications</span>
+            <span class="setting-description">Receive daily summaries and alerts via email</span>
+          </div>
+          <mat-slide-toggle color="primary" [(ngModel)]="notifications.email"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Push Notifications</span>
+            <span class="setting-description">Receive real-time alerts on your device</span>
+          </div>
+          <mat-slide-toggle color="primary" [(ngModel)]="notifications.push"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Product Updates</span>
+            <span class="setting-description">Get notified about new features and improvements</span>
+          </div>
+          <mat-slide-toggle color="primary" [(ngModel)]="notifications.updates"></mat-slide-toggle>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Appearance Settings -->
+    <mat-card class="content-card">
+      <div class="card-header">
+        <mat-icon>palette</mat-icon>
+        <h3>Appearance</h3>
+      </div>
+      <div class="card-content">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Theme</span>
+            <span class="setting-description">Select your preferred application theme</span>
+          </div>
+          <mat-form-field appearance="outline" class="compact-select">
+            <mat-select [(ngModel)]="appearance.theme">
+              <mat-option value="light">Light Mode</mat-option>
+              <mat-option value="dark">Dark Mode</mat-option>
+              <mat-option value="system">System Default</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Display Density</span>
+            <span class="setting-description">Choose how much information you see at once</span>
+          </div>
+          <mat-form-field appearance="outline" class="compact-select">
+            <mat-select [(ngModel)]="appearance.density">
+              <mat-option value="comfortable">Comfortable</mat-option>
+              <mat-option value="compact">Compact</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Danger Zone -->
+    <mat-card class="content-card danger-zone">
+      <div class="card-header">
+        <mat-icon color="warn">report_problem</mat-icon>
+        <h3>Danger Zone</h3>
+      </div>
+      <div class="card-content">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Delete Account</span>
+            <span class="setting-description">Permanently delete your account and all associated data</span>
+          </div>
+          <button mat-flat-button color="warn">Delete Account</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

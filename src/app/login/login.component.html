@@ -1,0 +1,45 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <mat-icon class="brand-icon">school</mat-icon>
+      <h1>ScholarSync</h1>
+      <p>Welcome back! Please login to your account.</p>
+    </div>
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email Address</mat-label>
+        <input matInput type="email" name="email" [(ngModel)]="email" required email placeholder="your@email.com">
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required placeholder="Enter your password">
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+
+      <div class="error-msg" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <button mat-raised-button color="primary" type="submit" class="full-width login-btn" [disabled]="!loginForm.form.valid">
+        Login
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <button mat-stroked-button class="full-width google-btn" (click)="onGoogleLogin()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+      Continue with Google
+    </button>
+
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+      <span>Don't have an account? </span>
+      <a routerLink="/signup" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign Up</a>
+    </div>
+  </mat-card>
+</div>

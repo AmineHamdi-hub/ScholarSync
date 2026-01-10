@@ -1,0 +1,56 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <div class="logo-circle">
+        <mat-icon>school</mat-icon>
+      </div>
+      <h2>Join ScholarSync</h2>
+      <p>Create your research account</p>
+    </div>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSignup()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="email" required placeholder="name@university.edu">
+          <mat-icon matPrefix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" name="password" [(ngModel)]="password" required>
+          <mat-icon matPrefix>lock</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+          <mat-icon matPrefix>lock_clock</mat-icon>
+        </mat-form-field>
+
+        <div *ngIf="error" class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ error }}</span>
+        </div>
+
+        <button mat-flat-button color="primary" class="full-width login-btn" type="submit">
+          Create Account
+        </button>
+      </form>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button mat-stroked-button class="full-width google-btn" (click)="onGoogleLogin()">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        Continue with Google
+      </button>
+
+      <div class="footer-links">
+        <span>Already have an account? </span>
+        <a routerLink="/login">Sign In</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

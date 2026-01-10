@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.add-btn {
+  border-radius: 8px !important;
+  padding: 0 24px !important;
+  height: 44px !important;
+  font-weight: 600 !important;
+}
+
+.mat-mdc-form-field {
+  font-size: 0.875rem;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.mat-column-select {
+  width: 48px;
+  padding-right: 0 !important;
+}
+
+.mat-column-id {
+  width: 80px;
+  color: var(--text-muted);
+}
+
+.mat-column-actions {
+  width: 80px;
+}
+
+/* Custom Table Header Styling */
+.mat-mdc-header-cell {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.mat-mdc-cell {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}

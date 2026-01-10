@@ -1,0 +1,17 @@
+<div class="auth-background" *ngIf="isAuthPage()">
+  <div class="background-items">
+    <div class="floating-item item-1"><mat-icon>school</mat-icon></div>
+    <div class="floating-item item-2"><mat-icon>auto_stories</mat-icon></div>
+    <div class="floating-item item-3"><mat-icon>groups</mat-icon></div>
+    <div class="floating-item item-4"><mat-icon>event_available</mat-icon></div>
+    <div class="floating-item item-5"><mat-icon>construction</mat-icon></div>
+    <div class="floating-item item-6"><mat-icon>science</mat-icon></div>
+    <div class="floating-item item-7"><mat-icon>psychology</mat-icon></div>
+    <div class="floating-item item-8"><mat-icon>menu_book</mat-icon></div>
+  </div>
+</div>
+
+<router-outlet *ngIf="isAuthPage(); else layout"></router-outlet>
+<ng-template #layout>
+  <app-layout></app-layout>
+</ng-template>

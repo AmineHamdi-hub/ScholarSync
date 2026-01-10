@@ -1,0 +1,181 @@
+{
+  "membres": [
+    {
+      "cin": "01111111",
+      "dateNaissance": "1999-01-02",
+      "nom": "Dupont",
+      "prenom": "Jean",
+      "email": "jean.dupont@univ.fr",
+      "password": "",
+      "type": "enseignant",
+      "diplome": "Master",
+      "dateInscription": "",
+      "encadrant": null,
+      "grade": "Professeur",
+      "etablissement": "ENIS",
+      "id": "2"
+    },
+    {
+      "id": "3",
+      "nom": "Martin",
+      "prenom": "Sophie",
+      "email": "sophie.martin@lab.com"
+    },
+    {
+      "id": "4",
+      "nom": "Lefebvre",
+      "prenom": "Thomas",
+      "email": "t.lefebvre@academy.org"
+    },
+    {
+      "id": "5",
+      "nom": "Durand",
+      "prenom": "Marie",
+      "email": "marie.durand@test.com"
+    },
+    {
+      "id": "6",
+      "nom": "Moreau",
+      "prenom": "Lucas",
+      "email": "l.moreau@univ.fr"
+    },
+    {
+      "id": "7",
+      "nom": "Petit",
+      "prenom": "Chloé",
+      "email": "chloe.petit@lab.com"
+    },
+    {
+      "id": "95da",
+      "nom": "Amine",
+      "prenom": "Hamdi",
+      "email": "amine.hamdi@enis.tn"
+    }
+  ],
+  "publications": [
+    {
+      "id": "1",
+      "titre": "Spring Cloud Gateway Optimization",
+      "auteurId": 1
+    },
+    {
+      "id": "2",
+      "titre": "Microservices Architecture Patterns",
+      "auteurId": 2
+    },
+    {
+      "id": "3",
+      "titre": "Artificial Intelligence in Modern Research",
+      "auteurId": 3
+    },
+    {
+      "id": "4",
+      "titre": "Angular Performance Best Practices",
+      "auteurId": 1
+    },
+    {
+      "id": "5",
+      "titre": "Distributed Systems: Challenges and Solutions",
+      "auteurId": 4
+    },
+    {
+      "id": "6",
+      "titre": "Machine Learning for Healthcare",
+      "auteurId": 3
+    },
+    {
+      "id": "7",
+      "titre": "Cybersecurity Trends in 2025",
+      "auteurId": 6
+    },
+    {
+      "id": "8",
+      "titre": "Quantum Computing Fundamentals",
+      "auteurId": 8
+    }
+  ],
+  "evenements": [
+    {
+      "id": "1",
+      "nom": "Tech Talk: Future of Web Dev",
+      "date": "2025-01-15"
+    },
+    {
+      "id": "2",
+      "nom": "Annual Research Symposium",
+      "date": "2025-03-22"
+    },
+    {
+      "id": "3",
+      "nom": "AI Ethics Workshop",
+      "date": "2024-11-10"
+    },
+    {
+      "id": "4",
+      "nom": "Cloud Computing Summit",
+      "date": "2025-06-05"
+    },
+    {
+      "id": "5",
+      "nom": "DevOps Days 2025",
+      "date": "2025-05-12"
+    },
+    {
+      "id": "6",
+      "nom": "Hackathon: Green IT",
+      "date": "2025-02-28"
+    }
+  ],
+  "outils": [
+    {
+      "id": "1",
+      "nom": "Docker",
+      "categorie": "DevOps"
+    },
+    {
+      "id": "2",
+      "nom": "Kubernetes",
+      "categorie": "DevOps"
+    },
+    {
+      "id": "3",
+      "nom": "Visual Studio Code",
+      "categorie": "Development"
+    },
+    {
+      "id": "4",
+      "nom": "GitLab CI/CD",
+      "categorie": "DevOps"
+    },
+    {
+      "id": "5",
+      "nom": "IntelliJ IDEA",
+      "categorie": "Development"
+    },
+    {
+      "id": "6",
+      "nom": "Postman",
+      "categorie": "Development"
+    },
+    {
+      "id": "7",
+      "nom": "Jenkins",
+      "categorie": "DevOps"
+    },
+    {
+      "id": "8",
+      "nom": "PyCharm",
+      "categorie": "Development"
+    },
+    {
+      "id": "9",
+      "nom": "Slack",
+      "categorie": "Communication"
+    },
+    {
+      "id": "10",
+      "nom": "Jira",
+      "categorie": "Management"
+    }
+  ]
+}

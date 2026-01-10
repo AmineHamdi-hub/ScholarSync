@@ -1,0 +1,107 @@
+<div class="container" *ngIf="user$ | async as user">
+  <div class="page-header">
+    <div class="page-title-group">
+      <h1>My Profile</h1>
+      <p>View and manage your account details</p>
+    </div>
+    <button mat-raised-button color="primary">
+      <mat-icon>edit</mat-icon>
+      Edit Profile
+    </button>
+  </div>
+
+  <div class="profile-layout">
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar">
+      <mat-card class="content-card profile-card">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            {{ getUserInitials(user.displayName, user.email) }}
+          </div>
+          <h2>{{ user.displayName || 'User' }}</h2>
+          <p>{{ user.email }}</p>
+          <span class="badge badge-blue">Researcher</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="profile-stats">
+          <div class="mini-stat">
+            <span class="value">12</span>
+            <span class="label">Publications</span>
+          </div>
+          <div class="mini-stat">
+            <span class="value">5</span>
+            <span class="label">Events</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="content-card info-card">
+        <h3>Contact Information</h3>
+        <div class="info-item">
+          <mat-icon>email</mat-icon>
+          <div class="info-content">
+            <span class="label">Email</span>
+            <span class="value">{{ user.email }}</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <mat-icon>phone</mat-icon>
+          <div class="info-content">
+            <span class="label">Phone</span>
+            <span class="value">+216 12 345 678</span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Profile Main Content -->
+    <div class="profile-main">
+      <mat-card class="content-card">
+        <div class="card-header">
+          <h3>Recent Activity</h3>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon icon-blue">
+              <mat-icon>auto_stories</mat-icon>
+            </div>
+            <div class="activity-details">
+              <p class="activity-text">Published a new paper: <strong>"Advanced Microservices Architecture"</strong></p>
+              <span class="activity-time">2 hours ago</span>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon icon-green">
+              <mat-icon>event_available</mat-icon>
+            </div>
+            <div class="activity-details">
+              <p class="activity-text">Registered for the <strong>"Tech Symposium 2026"</strong></p>
+              <span class="activity-time">Yesterday</span>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon icon-purple">
+              <mat-icon>person_add</mat-icon>
+            </div>
+            <div class="activity-details">
+              <p class="activity-text">Joined the <strong>ScholarSync</strong> research team</p>
+              <span class="activity-time">3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="content-card" style="margin-top: 1.5rem;">
+        <div class="card-header">
+          <h3>Professional Bio</h3>
+        </div>
+        <div class="card-content">
+          <p>
+            Passionate researcher specializing in microservices and modern web architectures.
+            Currently working on improving distributed system performance and scalability.
+          </p>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

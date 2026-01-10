@@ -1,0 +1,83 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+  <mat-sidenav mode="side" opened [class.expanded]="isSidebarExpanded" [class.collapsed]="!isSidebarExpanded" [fixedInViewport]="false">
+    <div class="brand">
+      <mat-icon>school</mat-icon>
+      <span *ngIf="isSidebarExpanded">ScholarSync</span>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/members" routerLinkActive="active-nav-item" class="nav-item">
+        <mat-icon matListItemIcon>groups</mat-icon>
+        <span matListItemTitle *ngIf="isSidebarExpanded">Members</span>
+        <div class="active-indicator"></div>
+      </a>
+      <a mat-list-item routerLink="/events" routerLinkActive="active-nav-item" class="nav-item">
+        <mat-icon matListItemIcon>event_available</mat-icon>
+        <span matListItemTitle *ngIf="isSidebarExpanded">Events</span>
+        <div class="active-indicator"></div>
+      </a>
+      <a mat-list-item routerLink="/publications" routerLinkActive="active-nav-item" class="nav-item">
+        <mat-icon matListItemIcon>auto_stories</mat-icon>
+        <span matListItemTitle *ngIf="isSidebarExpanded">Publications</span>
+        <div class="active-indicator"></div>
+      </a>
+      <a mat-list-item routerLink="/tools" routerLinkActive="active-nav-item" class="nav-item">
+        <mat-icon matListItemIcon>construction</mat-icon>
+        <span matListItemTitle *ngIf="isSidebarExpanded">Tools</span>
+        <div class="active-indicator"></div>
+      </a>
+    </mat-nav-list>
+
+    <div class="sidebar-footer">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>{{ isSidebarExpanded ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <div class="breadcrumbs">
+        <span class="root">Dashboard</span>
+        <mat-icon>chevron_right</mat-icon>
+        <span class="current">{{ currentRoute }}</span>
+      </div>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button class="toolbar-btn">
+        <mat-icon>notifications</mat-icon>
+        <span class="notification-badge"></span>
+      </button>
+
+      <div class="user-profile" [matMenuTriggerFor]="userMenu" *ngIf="user$ | async as user">
+        <div class="avatar">{{ getUserInitials(user.displayName, user.email) }}</div>
+        <div class="user-info">
+          <span class="name">{{ user.displayName || 'User' }}</span>
+          <span class="role">{{ user.email }}</span>
+        </div>
+        <mat-icon>expand_more</mat-icon>
+      </div>
+
+      <mat-menu #userMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>My Profile</span>
+        </button>
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
