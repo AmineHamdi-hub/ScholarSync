@@ -81,10 +81,8 @@ export class PublicationsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.publicationService.addPublication(result).subscribe(() => {
-          this.fetchPublications();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchPublications();
       }
     });
   }
@@ -96,10 +94,8 @@ export class PublicationsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.publicationService.updatePublication(publication.id as any, result).subscribe(() => {
-          this.fetchPublications();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchPublications();
       }
     });
   }

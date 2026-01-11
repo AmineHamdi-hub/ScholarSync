@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { OutilService } from '../../services/tool.service';
 
 @Component({
   selector: 'app-tool-form-dialog',
@@ -15,7 +17,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   template: `
     <h2 mat-dialog-title>{{ data.title }}</h2>
@@ -34,7 +37,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+      <button *ngIf="data.tool" mat-button color="warn" [disabled]="submitting" (click)="onDelete()">Delete</button>
+      <button mat-raised-button color="primary" [disabled]="form.invalid || submitting" (click)="onSave()">Save</button>
     </mat-dialog-actions>
   `,
   styles: [`
@@ -51,11 +55,14 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class ToolFormDialogComponent {
   form: FormGroup;
+  submitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ToolFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private outilService: OutilService,
+    private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       source: [data.tool?.source || data.tool?.nom || '', Validators.required],
@@ -67,9 +74,56 @@ export class ToolFormDialogComponent {
     this.dialogRef.close();
   }
 
+  onDelete(): void {
+    if (!this.data.tool?.id) {
+      this.snackBar.open('Cannot delete: missing tool id', 'Close', { duration: 5000 });
+      return;
+    }
+    if (!confirm('Are you sure you want to delete this tool?')) return;
+    this.submitting = true;
+    this.outilService.deleteOutil(this.data.tool.id).subscribe({
+      next: () => {
+        this.snackBar.open('Tool deleted', 'Close', { duration: 3000 });
+        this.dialogRef.close({ deleted: true });
+      },
+      error: (err: any) => {
+        console.error('Error deleting tool:', err);
+        this.snackBar.open('Error deleting tool', 'Close', { duration: 5000 });
+        this.submitting = false;
+      }
+    });
+  }
+
   onSave(): void {
-    if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+    if (!this.form.valid) return;
+    const payload = this.form.value;
+    this.submitting = true;
+
+    if (!this.data.tool) {
+      this.outilService.addOutil(payload).subscribe({
+        next: (created) => {
+          this.snackBar.open('Tool created', 'Close', { duration: 3000 });
+          this.dialogRef.close({ saved: true, tool: created });
+        },
+        error: (err: any) => {
+          console.error('Error creating tool:', err);
+          this.snackBar.open('Error creating tool', 'Close', { duration: 5000 });
+          this.submitting = false;
+        }
+      });
+    } else {
+      const id = this.data.tool.id;
+      this.outilService.updateOutil(id, payload).subscribe({
+        next: (updated) => {
+          this.snackBar.open('Tool updated', 'Close', { duration: 3000 });
+          this.dialogRef.close({ saved: true, tool: updated });
+        },
+        error: (err: any) => {
+          console.error('Error updating tool:', err);
+          this.snackBar.open('Error updating tool', 'Close', { duration: 5000 });
+          this.submitting = false;
+        }
+      });
     }
   }
-}
+} 

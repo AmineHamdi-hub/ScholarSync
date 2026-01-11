@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MemberService } from '../../services/membre.service';
 import { Member } from '../../models/Membre';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-member-form-dialog',
@@ -19,7 +20,9 @@ import { Member } from '../../models/Membre';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // Needed for user feedback inside the dialog
+    MatSnackBarModule
   ],
   template: `
     <h2 mat-dialog-title>{{ data.title }}</h2>
@@ -106,6 +109,7 @@ import { Member } from '../../models/Membre';
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancel</button>
+      <button *ngIf="data.member" mat-button color="warn" [disabled]="submitting" (click)="onDelete()">Delete</button>
       <button mat-raised-button color="primary" [disabled]="form.invalid || submitting" (click)="onSave()">Save</button>
     </mat-dialog-actions>
   `,
@@ -147,7 +151,8 @@ export class MemberFormDialogComponent implements OnInit {
     private membreService: MemberService,
     private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<MemberFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       cin: [data.member?.cin || '', Validators.required],
@@ -180,18 +185,32 @@ export class MemberFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.membreService.getMembers().subscribe({
-      next: (members: any[]) => {
+    // Prefer a backend endpoint that returns only teachers; fall back to filtering all members if it fails
+    this.membreService.getEnseignants().subscribe({
+      next: (members: Member[]) => {
         if (Array.isArray(members)) {
-          this.teachers = members.filter((m: any) => m.typeMbr === 'enseignant') as Member[];
+          this.teachers = members;
         } else {
           this.teachers = [];
         }
         setTimeout(() => this.cdr.detectChanges());
       },
       error: (err: any) => {
-        this.teachers = [];
-        setTimeout(() => this.cdr.detectChanges());
+        console.warn('[MemberFormDialog] getEnseignants failed, falling back to getMembers', err);
+        this.membreService.getMembers().subscribe({
+          next: (members: any[]) => {
+            if (Array.isArray(members)) {
+              this.teachers = members.filter((m: any) => m.typeMbr === 'enseignant') as Member[];
+            } else {
+              this.teachers = [];
+            }
+            setTimeout(() => this.cdr.detectChanges());
+          },
+          error: (err2: any) => {
+            this.teachers = [];
+            setTimeout(() => this.cdr.detectChanges());
+          }
+        });
       }
     });
   }
@@ -218,6 +237,31 @@ export class MemberFormDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  onDelete(): void {
+    if (!this.data.member?.id) {
+      this.snackBar.open('Cannot delete: missing member id', 'Close', { duration: 5000 });
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this member?')) {
+      return;
+    }
+
+    this.submitting = true;
+    this.membreService.deleteMember(this.data.member.id).subscribe({
+      next: () => {
+        this.snackBar.open('Member deleted successfully', 'Close', { duration: 3000 });
+        this.dialogRef.close({ deleted: true });
+      },
+      error: (err: any) => {
+        console.error('Error deleting member:', err);
+        this.snackBar.open('Error deleting member. See console for details.', 'Close', { duration: 5000 });
+        this.submitting = false;
+        setTimeout(() => this.cdr.detectChanges());
+      }
+    });
   }
 
   onSave(): void {
@@ -254,9 +298,78 @@ export class MemberFormDialogComponent implements OnInit {
 
       // Prevent mid-cycle view mutation errors by deferring the close
       this.submitting = true;
-      setTimeout(() => {
-        this.dialogRef.close(result);
-      });
+
+      // Decide whether to create or update based on presence of data.member
+      if (!this.data.member) {
+        // Create
+        const createPayload: any = result;
+        if (createPayload.typeMbr === 'etudiant') {
+          this.membreService.addSEtudiant(createPayload).subscribe({
+            next: (created) => {
+              this.snackBar.open('Member created successfully', 'Close', { duration: 3000 });
+              this.dialogRef.close({ saved: true, member: created });
+            },
+            error: (err: any) => {
+              console.error('Error creating member in dialog:', err);
+              this.snackBar.open('Error creating member. See console for details.', 'Close', { duration: 5000 });
+              this.submitting = false;
+              setTimeout(() => this.cdr.detectChanges());
+            }
+          });
+        } else {
+          this.membreService.addEnseignantChercheur(createPayload).subscribe({
+            next: (created) => {
+              this.snackBar.open('Member created successfully', 'Close', { duration: 3000 });
+              this.dialogRef.close({ saved: true, member: created });
+            },
+            error: (err: any) => {
+              console.error('Error creating member in dialog:', err);
+              this.snackBar.open('Error creating member. See console for details.', 'Close', { duration: 5000 });
+              this.submitting = false;
+              setTimeout(() => this.cdr.detectChanges());
+            }
+          });
+        }
+      } else {
+        // Update
+        const updatePayload: any = result;
+        const id = this.data.member?.id;
+        if (!id) {
+          console.error('Cannot update member: missing id');
+          this.snackBar.open('Cannot update member: missing id', 'Close', { duration: 5000 });
+          this.submitting = false;
+          setTimeout(() => this.cdr.detectChanges());
+          return;
+        }
+
+        if (updatePayload.typeMbr === 'etudiant') {
+          this.membreService.updateEtudiant(id, updatePayload).subscribe({
+            next: (updated) => {
+              this.snackBar.open('Member updated successfully', 'Close', { duration: 3000 });
+              this.dialogRef.close({ saved: true, member: updated });
+            },
+            error: (err: any) => {
+              console.error('Error updating member in dialog:', err);
+              this.snackBar.open('Error updating member. See console for details.', 'Close', { duration: 5000 });
+              this.submitting = false;
+              setTimeout(() => this.cdr.detectChanges());
+            }
+          });
+        } else {
+          this.membreService.updateEnseignant(id, updatePayload).subscribe({
+            next: (updated) => {
+              this.snackBar.open('Member updated successfully', 'Close', { duration: 3000 });
+              this.dialogRef.close({ saved: true, member: updated });
+            },
+            error: (err: any) => {
+              console.error('Error updating member in dialog:', err);
+              this.snackBar.open('Error updating member. See console for details.', 'Close', { duration: 5000 });
+              this.submitting = false;
+              setTimeout(() => this.cdr.detectChanges());
+            }
+          });
+        }
+      }
     }
   }
 }

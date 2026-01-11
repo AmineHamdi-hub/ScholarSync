@@ -96,30 +96,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        if (result.typeMbr === 'etudiant') {
-          this.membreService.addSEtudiant(result).subscribe({
-            next: () => {
-              this.fetchMembers();
-              this.snackBar.open('Member created successfully!', 'Close', { duration: 3000 });
-            },
-            error: (err: any) => {
-              console.error('Error creating member:', err);
-              this.snackBar.open('Error creating member. Check console for details.', 'Close', { duration: 5000 });
-            }
-          });
-        } else {
-          this.membreService.addEnseignantChercheur(result).subscribe({
-            next: () => {
-              this.fetchMembers();
-              this.snackBar.open('Member created successfully!', 'Close', { duration: 3000 });
-            },
-            error: (err: any) => {
-              console.error('Error creating member:', err);
-              this.snackBar.open('Error creating member. Check console for details.', 'Close', { duration: 5000 });
-            }
-          });
-        }
+      if (result?.saved || result?.deleted) {
+        this.fetchMembers();
       }
     });
   }
@@ -131,30 +109,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        if (member.typeMbr === 'etudiant') {
-          this.membreService.updateEtudiant(member.id as any, result).subscribe({
-            next: () => {
-              this.fetchMembers();
-              this.snackBar.open('Member updated successfully!', 'Close', { duration: 3000 });
-            },
-            error: (err: any) => {
-              console.error('Error updating member:', err);
-              this.snackBar.open('Error updating member.', 'Close', { duration: 5000 });
-            }
-          });
-        } else {
-          this.membreService.updateEnseignant(member.id as any, result).subscribe({
-            next: () => {
-              this.fetchMembers();
-              this.snackBar.open('Member updated successfully!', 'Close', { duration: 3000 });
-            },
-            error: (err: any) => {
-              console.error('Error updating member:', err);
-              this.snackBar.open('Error updating member.', 'Close', { duration: 5000 });
-            }
-          });
-        }
+      if (result?.saved || result?.deleted) {
+        this.fetchMembers();
       }
     });
   }

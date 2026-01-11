@@ -81,10 +81,8 @@ export class EventsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.eventService.addEvenement(result).subscribe(() => {
-          this.fetchEvents();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchEvents();
       }
     });
   }
@@ -96,10 +94,8 @@ export class EventsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.eventService.updateEvenement(event.id as any, result).subscribe(() => {
-          this.fetchEvents();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchEvents();
       }
     });
   }

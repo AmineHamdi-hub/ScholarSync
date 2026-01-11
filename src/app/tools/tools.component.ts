@@ -92,10 +92,8 @@ export class ToolsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.toolService.addOutil(result).subscribe(() => {
-          this.fetchTools();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchTools();
       }
     });
   }
@@ -107,10 +105,8 @@ export class ToolsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.toolService.updateOutil(tool.id as any, result).subscribe(() => {
-          this.fetchTools();
-        });
+      if (result?.saved || result?.deleted) {
+        this.fetchTools();
       }
     });
   }

@@ -18,6 +18,13 @@ export class MemberService { // exporter pour pouvoir l'utiliser ailleurs
     // observable : observer, subscriber and notification
   // observable design pattern : push data (notification) from the source (observer) to the consumer (subscriber) asynchronously
   } 
+
+  // get all teachers (enseignants)
+  getEnseignants(): Observable<Member[]> {
+    // Prefer a teacher-specific endpoint if the backend provides it.
+    return this.httpClient.get<Member[]>(`http://localhost:8084/membres/enseignant`);
+  }
+
   // get member by id
   getMemberById(id: number): Observable<Member> {
     // implementation here
