@@ -11,7 +11,7 @@ export class OutilService { // exporter pour pouvoir l'utiliser ailleurs
   // get all Outils
   getOutils(): Observable<Outil[]> {  
     return this.httpClient.get<Outil[]> // type de retour : un tableau de Outil
-    (`http://localhost:8083/outils`);
+    (`http://localhost:8085/outils`);
     // observable : observer, subscriber and notification
   // observable design pattern : push data (notification) from the source (observer) to the consumer (subscriber) asynchronously
   } 
@@ -19,19 +19,19 @@ export class OutilService { // exporter pour pouvoir l'utiliser ailleurs
   getOutilById(id: number): Observable<Outil> {
     // implementation here
     return this.httpClient.get<Outil>
-    (`http://localhost:8083/outils/${id}`);
+    (`http://localhost:8085/outils/${id}`);
   }
 
   // add a new Outil
   addOutil(outil: any): Observable<Outil> {
     // implementation here
-    return this.httpClient.post<Outil>(`http://localhost:8083/outils`, outil);
+    return this.httpClient.post<Outil>(`http://localhost:8085/outils`, outil);
   }
 
   // update a Outil
   updateOutil(idCourant: string, outil: any): Observable<Outil> {
     // implementation here
-    return this.httpClient.put<Outil>(`http://localhost:8083/outils/${idCourant}`, outil); 
+    return this.httpClient.put<Outil>(`http://localhost:8085/outils/${idCourant}`, outil); 
     // return this.httpClient.patch<void>("http://localhost:8083/outils/${idCourant}", outil.name);
 
   }
@@ -39,6 +39,6 @@ export class OutilService { // exporter pour pouvoir l'utiliser ailleurs
   // delete a Outil
   deleteOutil(id: number){
     // implementation here
-    return this.httpClient.delete<void>(`http://localhost:8083/outils/${id}`);
+    return this.httpClient.delete<void>(`http://localhost:8085/outils/${id}`);
   } 
 }

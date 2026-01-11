@@ -11,7 +11,7 @@ export class EvenementService { // exporter pour pouvoir l'utiliser ailleurs
   // get all evenements
   getEvenements(): Observable<Evenement[]> {  
     return this.httpClient.get<Evenement[]> // type de retour : un tableau de Evenement
-    ('http://localhost:8082/evenements');
+    ('http://localhost:8087/evenements');
     // observable : observer, subscriber and notification
   // observable design pattern : push data (notification) from the source (observer) to the consumer (subscriber) asynchronously
   } 
@@ -19,18 +19,18 @@ export class EvenementService { // exporter pour pouvoir l'utiliser ailleurs
   getEvenementById(id: number): Observable<Evenement> {
     // implementation here
     return this.httpClient.get<Evenement>
-    (`http://localhost:8082/evenements/${id}`);
+    (`http://localhost:8087/evenements/${id}`);
   }
 
   // add a new evenement
    addEvenement(evenement: Evenement): Observable<Evenement> {
-    return this.httpClient.post<Evenement>('http://localhost:8082/evenements', evenement);
+    return this.httpClient.post<Evenement>('http://localhost:8087/evenements', evenement);
   }
 
   // update a evenement
   updateEvenement(idCourant: string, evenement: any): Observable<Evenement> {
     // implementation here
-    return this.httpClient.put<Evenement>(`http://localhost:8082/evenements/${idCourant}`, evenement); 
+    return this.httpClient.put<Evenement>(`http://localhost:8087/evenements/${idCourant}`, evenement); 
     // return this.httpClient.patch<void>("http://localhost:8082/evenements/${idCourant}", evenement.name);
 
   }
@@ -38,6 +38,6 @@ export class EvenementService { // exporter pour pouvoir l'utiliser ailleurs
   // delete a evenement
   deleteEvenement(id: number){
     // implementation here
-    return this.httpClient.delete<void>(`http://localhost:8082/evenements/${id}`);
+    return this.httpClient.delete<void>(`http://localhost:8087/evenements/${id}`);
   } 
 }

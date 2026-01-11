@@ -25,13 +25,18 @@ import { EvenementService } from '../../services/event.service';
     <mat-dialog-content>
       <form [formGroup]="form" class="dialog-form">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nom de l'événement</mat-label>
-          <input matInput formControlName="nom" placeholder="Nom">
+          <mat-label>Titre de l'événement</mat-label>
+          <input matInput formControlName="titre" placeholder="Titre">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Date</mat-label>
-          <input matInput type="date" formControlName="date">
+          <input matInput type="date" formControlName="dateEvenement">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Lieu</mat-label>
+          <input matInput formControlName="lieu" placeholder="Lieu">
         </mat-form-field>
       </form>
     </mat-dialog-content>
@@ -66,7 +71,8 @@ export class EventFormDialogComponent {
   ) {
     this.form = this.fb.group({
       titre: [data.event?.titre || '', Validators.required],
-      dateEvenement: [data.event?.dateEvenement || data.event?.date || '', Validators.required]
+      dateEvenement: [data.event?.dateEvenement || data.event?.date || '', Validators.required],
+      lieu: [data.event?.lieu || '']
     });
   }
 
